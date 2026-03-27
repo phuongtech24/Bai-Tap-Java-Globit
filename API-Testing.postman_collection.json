@@ -95,7 +95,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8081/api/departments/7ae4815a-f865-4466-b3ee-f5057044b48d",
+              "raw": "http://localhost:8081/api/departments/4872176f-7fd0-4dc1-8d1e-d2418efe07b2",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -104,7 +104,7 @@
               "path": [
                 "api",
                 "departments",
-                "7ae4815a-f865-4466-b3ee-f5057044b48d"
+                "4872176f-7fd0-4dc1-8d1e-d2418efe07b2"
               ]
             }
           },
@@ -116,7 +116,7 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:8081/api/departments/12a2690f-11dd-42d7-9dbf-eb52428f4251",
+              "raw": "http://localhost:8081/api/departments/4872176f-7fd0-4dc1-8d1e-d2418efe07b2",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -125,7 +125,7 @@
               "path": [
                 "api",
                 "departments",
-                "12a2690f-11dd-42d7-9dbf-eb52428f4251"
+                "4872176f-7fd0-4dc1-8d1e-d2418efe07b2"
               ]
             }
           },
@@ -209,6 +209,57 @@
               "path": [
                 "api",
                 "companies"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Xoá công ty",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/companies/cc7a269f-dfe2-4cc3-b12c-712caa47e3ef",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "companies",
+                "cc7a269f-dfe2-4cc3-b12c-712caa47e3ef"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cập nhật công ty",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Teky Academy Japan\",\r\n  \"code\": \"Viettel\",\r\n  \"address\": \"Hà Nội\",\r\n  \"departmentIds\": [],\r\n  \"employeeIds\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/companies/675c83f9-b1b3-46df-ba22-8bcb27f54475",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "companies",
+                "675c83f9-b1b3-46df-ba22-8bcb27f54475"
               ]
             }
           },
@@ -536,7 +587,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"name\": \"USER\",\r\n  \"description\": \"Quản trị viên toàn hệ thống\"\r\n}\r\n",
+              "raw": "{\r\n  \"name\": \"USERs\",\r\n  \"description\": \"Quản trị viên toàn hệ thống\"\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -565,7 +616,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"username\": \"namphuong_admin\",\r\n  \"password\": \"securepassword123\",\r\n  \"roleIds\": [\r\n    \"2e5e22a5-07a9-4bd1-b84c-7d8fea10d23f\"\r\n  ]\r\n}\r\n",
+              "raw": "{\r\n  \"username\": \"namphuong_adminn\",\r\n  \"password\": \"securepassword123\",\r\n  \"roleIds\": [\r\n    \"2e5e22a5-07a9-4bd1-b84c-7d8fea10d23f\"\r\n  ]\r\n}\r\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -582,6 +633,36 @@
               "path": [
                 "api",
                 "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Xem danh sách người dùng",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8081/api/users?pageIndex=0&pageSize=5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "pageIndex",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "5"
+                }
               ]
             }
           },
