@@ -1,4 +1,4 @@
-package com.example.demo.dto.response;
+package com.example.demo.common;
 
 public class ApiResponse<T> {
 	private int status;

@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
-import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.common.ApiResponse;
 import com.example.demo.dto.request.RoleRequest;
-import com.example.demo.dto.response.ApiResponse; // Nhớ import ApiResponse của bạn vào nhé
-import com.example.demo.entity.Role;
+import com.example.demo.dto.response.RoleResponse;
 import com.example.demo.service.RoleService;
 
 @RestController
@@ -30,25 +31,26 @@ public class RoleController {
 	}
 
 	@GetMapping
-	public ResponseEntity<ApiResponse<List<Role>>> getAll() {
-		return ResponseEntity.ok(ApiResponse.success(roleService.getAllRoles(), "Lấy danh sách Role thành công"));
+	public ResponseEntity<ApiResponse<Page<RoleResponse>>> searchByPage(@RequestParam(defaultValue = "0") int pageIndex,
+			@RequestParam(defaultValue = "10") int pageSize) {
+		return ResponseEntity.ok(
+				ApiResponse.success(roleService.searchByPage(pageIndex, pageSize), "Lấy danh sách Role thành công"));
 	}
 
 	@PostMapping
-	public ResponseEntity<ApiResponse<Role>> create(@RequestBody RoleRequest request) {
+	public ResponseEntity<ApiResponse<RoleResponse>> create(@RequestBody RoleRequest request) {
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(ApiResponse.success(roleService.createRole(request), "Tạo Role thành công"));
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<ApiResponse<Role>> update(@PathVariable UUID id, @RequestBody RoleRequest request) {
+	public ResponseEntity<ApiResponse<RoleResponse>> update(@PathVariable UUID id, @RequestBody RoleRequest request) {
 		return ResponseEntity.ok(ApiResponse.success(roleService.updateRole(id, request), "Cập nhật Role thành công"));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponse<Void>> delete(@PathVariable UUID id) {
 		roleService.deleteRole(id);
-		// Xóa xong thì truyền null cho phần data
 		return ResponseEntity.ok(ApiResponse.success(null, "Xóa Role thành công"));
 	}
 }

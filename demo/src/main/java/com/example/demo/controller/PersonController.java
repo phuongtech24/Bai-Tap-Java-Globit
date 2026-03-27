@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.common.ApiResponse;
 import com.example.demo.dto.request.PersonCreateRequest;
-import com.example.demo.dto.response.ApiResponse;
-import com.example.demo.entity.Person;
+import com.example.demo.dto.response.PersonResponse;
 import com.example.demo.service.PersonService;
 
 @RestController
@@ -32,6 +30,33 @@ public class PersonController {
 
 	public PersonController(PersonService personService) {
 		this.personService = personService;
+	}
+
+	@GetMapping
+	public ResponseEntity<ApiResponse<Page<PersonResponse>>> searchByPage(
+			@RequestParam(defaultValue = "0") int pageIndex, @RequestParam(defaultValue = "10") int pageSize) {
+		Page<PersonResponse> pageData = personService.searchByPage(pageIndex, pageSize);
+		return ResponseEntity.ok(ApiResponse.success(pageData, "Lấy danh sách nhân sự thành công"));
+	}
+
+	@PostMapping
+	public ResponseEntity<ApiResponse<PersonResponse>> create(@RequestBody PersonCreateRequest request) {
+		PersonResponse savedPerson = personService.createPerson(request);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(ApiResponse.success(savedPerson, "Thêm mới nhân sự thành công"));
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<ApiResponse<PersonResponse>> update(@PathVariable UUID id,
+			@RequestBody PersonCreateRequest request) {
+		PersonResponse updatedPerson = personService.updatePerson(id, request);
+		return ResponseEntity.ok(ApiResponse.success(updatedPerson, "Cập nhật thông tin nhân sự thành công"));
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<ApiResponse<Void>> delete(@PathVariable UUID id) {
+		personService.deletePerson(id);
+		return ResponseEntity.ok(ApiResponse.success(null, "Xóa nhân sự thành công"));
 	}
 
 	@PostMapping("/{id}/upload-avatar")
@@ -47,29 +72,5 @@ public class PersonController {
 			return ResponseEntity.internalServerError()
 					.body(ApiResponse.error("Lỗi khi lưu file ảnh vào máy: " + e.getMessage()));
 		}
-	}
-
-	@PostMapping
-	public ResponseEntity<Person> createPerson(@RequestBody PersonCreateRequest request) {
-		Person savedPerson = personService.createPerson(request);
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedPerson);
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<Person> updatePerson(@PathVariable UUID id, @RequestBody PersonCreateRequest request) {
-		Person updatedPerson = personService.updatePerson(id, request);
-		return ResponseEntity.ok(updatedPerson);
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletePerson(@PathVariable UUID id) {
-		personService.deletePerson(id);
-		return ResponseEntity.ok().build(); // Trả về 200 OK, không cần body
-	}
-
-	@GetMapping
-	public Page<Person> get(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return personService.getAll(pageable);
 	}
 }
